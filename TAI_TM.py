@@ -64,11 +64,15 @@ def build_transfer_matrix(J, h, beta, Nx):
             
             # 計算能量貢獻
             E_V_prime = calculate_vertical_energy(sigma_prime_np, J, Nx)
+            E_V = calculate_vertical_energy(sigma_np, J, Nx)
             E_H_sigma_sigma_prime = calculate_horizontal_energy(sigma_np, sigma_prime_np, J, Nx)
-            E_F_prime = calculate_field_energy(sigma_prime_np, h, Nx)
+            E_F_prime = calculate_field_energy(sigma_prime_np, h, Nx)         
+            E_F = calculate_field_energy(sigma_np, h, Nx)
             
             # 計算 Boltzmann 因子並填入矩陣元素
             T[idx_sigma, idx_sigma_prime] = math.exp(-beta * (E_V_prime + E_H_sigma_sigma_prime + E_F_prime))
+            # T[idx_sigma, idx_sigma_prime] = \
+                # math.exp(-beta * (E_V_prime/2 + E_H_sigma_sigma_prime + E_F_prime/2 + E_F/2 + E_V/2))
             
     return T
 
@@ -83,7 +87,7 @@ def partition_function_transfer_matrix(J, h, beta, Nx, Ny):
         
     # 1. 建構傳遞矩陣 T
     T_matrix = build_transfer_matrix(J, h, beta, Nx)
-    
+    print(T_matrix)
     # 2. 計算 T 的 Ny 次方
     T_power_Ny = np.linalg.matrix_power(T_matrix, Ny)
     
@@ -108,23 +112,23 @@ Z_tm_2x2 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_v
 print(f"當 Nx={Nx_val_2x2}, Ny={Ny_val_2x2}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_2x2:.4f}")
 
 # 2x3 點陣
-Nx_val_2x3 = 2
-Ny_val_2x3 = 3
-Z_tm_2x3 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_2x3, Ny_val_2x3)
-print(f"當 Nx={Nx_val_2x3}, Ny={Ny_val_2x3}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_2x3:.4f}")
+# Nx_val_2x3 = 2
+# Ny_val_2x3 = 3
+# Z_tm_2x3 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_2x3, Ny_val_2x3)
+# print(f"當 Nx={Nx_val_2x3}, Ny={Ny_val_2x3}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_2x3:.4f}")
 
-# 3x2 點陣 (注意：這裡 Nx 和 Ny 對調了，傳遞矩陣的維度會變大)
-# 如果想計算 3x2，那麼 Nx=3, Ny=2。傳遞矩陣大小會是 2^3 x 2^3 = 8x8。
-Nx_val_3x2 = 3
-Ny_val_3x2 = 2
-Z_tm_3x2 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_3x2, Ny_val_3x2)
-print(f"當 Nx={Nx_val_3x2}, Ny={Ny_val_3x2}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_3x2:.4f}")
+# # 3x2 點陣 (注意：這裡 Nx 和 Ny 對調了，傳遞矩陣的維度會變大)
+# # 如果想計算 3x2，那麼 Nx=3, Ny=2。傳遞矩陣大小會是 2^3 x 2^3 = 8x8。
+# Nx_val_3x2 = 3
+# Ny_val_3x2 = 2
+# Z_tm_3x2 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_3x2, Ny_val_3x2)
+# print(f"當 Nx={Nx_val_3x2}, Ny={Ny_val_3x2}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_3x2:.4f}")
 
-# 3x3 點陣
-Nx_val_3x3 = 3
-Ny_val_3x3 = 3
-Z_tm_3x3 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_3x3, Ny_val_3x3)
-print(f"當 Nx={Nx_val_3x3}, Ny={Ny_val_3x3}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_3x3:.4f}")
+# # 3x3 點陣
+# Nx_val_3x3 = 3
+# Ny_val_3x3 = 3
+# Z_tm_3x3 = partition_function_transfer_matrix(J_value, h_value, beta_value, Nx_val_3x3, Ny_val_3x3)
+# print(f"當 Nx={Nx_val_3x3}, Ny={Ny_val_3x3}, J={J_value}, h={h_value}, T={temperature} 時，分佈函數 Z (傳遞矩陣) = {Z_tm_3x3:.4f}")
 
-print("\n--- 嘗試更大的 Nx (例如 Nx=4, Ny=4) ---")
+# print("\n--- 嘗試更大的 Nx (例如 Nx=4, Ny=4) ---")
 
