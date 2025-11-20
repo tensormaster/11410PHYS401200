@@ -48,3 +48,7 @@ For 2D Ising model
 * Use `list` and `np.array` to create vector=rank-1 tensor and matrix=rank-2 tensor.
 * Perform vector dot and matrix multiplication, study/plot time v.s. dimension.
 * Try numpy.tensordot and numpy.einsum.
+
+## Assignment-4
+* Perform SVD on nxn matrix and truncate it, see how error increases as you truncate more singular values.
+
